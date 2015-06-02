@@ -1,3 +1,18 @@
 source 'https://rubygems.org'
 
 gem 'sinatra'
+gem 'sinatra-contrib'
+
+# Using Thin for web server
+gem 'thin'
+
+# PostgreSQL driver
+gem 'pg'
+
+# Using ActiveRecord for database management
+gem 'activesupport', '~>4.1'
+gem 'activerecord', '~>4.1'
+
+gem 'rake'
+
+gem 'shotgun'
