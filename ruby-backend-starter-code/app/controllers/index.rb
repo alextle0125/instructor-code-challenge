@@ -3,10 +3,6 @@ get '/' do
   erb :index
 end
 
-# get '/'
-#   File.read('index.html')
-# end
-
 get 'favorites' do
   response.header['Content-Type'] = 'application/json'
   File.read('data.json')
