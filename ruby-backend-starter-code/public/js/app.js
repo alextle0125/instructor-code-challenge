@@ -2,17 +2,33 @@
 
   document.querySelector('form').addEventListener('submit', function(event){
     event.preventDefault();
+    var searchList = document.querySelector('ul');
     var input = document.querySelector('input').value;
-    var xhr = new XMLHttpRequest();
-    xhr.open('get', 'http://omdbapi.com/?s=' + encodeURIComponent(input), true);
-    xhr.addEventListener('load', function(response){
-      var res =  JSON.parse(this.response).Search;
+
+    function requestSearchData() {
+      var xhr = new XMLHttpRequest();
+      xhr.open('get', 'http://omdbapi.com/?s=' + encodeURIComponent(input), true);
+      xhr.addEventListener('load', function(response){
+        var res =  JSON.parse(this.response).Search;
+        generateListData(res);
+      });
+      xhr.send();
+    }
+    function generateListData(res) {
       for(var i = 0; i < res.length; i++){
-        var node = document.createElement('li');
-        node.innerText = res[i].Title;
-        document.querySelector('ul').appendChild(node);
+          var node = document.createElement('li');
+          node.innerText = res[i].Title;
+          searchList.appendChild(node);
+        }
+    }
+    
+    if(searchList.children.length > 0){
+      while (searchList.firstChild) {
+        searchList.removeChild(searchList.firstChild)
       }
-  });
-    xhr.send();
+      requestSearchData();
+    } else {
+      requestSearchData();
+    }
   });
 })();
