@@ -9,6 +9,7 @@ require 'rubygems'
 
 require 'uri'
 require 'pathname'
+require 'json'
 
 require 'pg'
 require 'active_record'

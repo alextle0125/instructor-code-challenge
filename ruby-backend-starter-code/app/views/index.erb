@@ -1,21 +1,18 @@
 <!DOCTYPE html>
-<html ng-app>
+<html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <link rel="stylesheet" href="/css/application.css">
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/bootstrap-responsive.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <title>Shmancy Movies</title>
   </head>
   <body>
+  	<span class='glyphicon glyphicon-eye-close btn-lg' onClick="closeResults()"></span>
   	<div class="wrapper">
-		<div id="most-searched">
-		</div>
-		<div id="most-favorited">
 
-		</div>
   	</div>
   	<div class="search-modal">
+  		<h2 id="search-message">Search for your favorite movies</h2>
 	    <div id="shmancy-animation">
 	      <span></span>
 	      <span></span>
@@ -28,16 +25,40 @@
 	      <span></span>
 	      <span></span>
 	    </div>
-  		<h2 id="search-message">Search for your favorite movies</h2>
-	    <form id="search-form">
-	      <input type="text" ng-model="title" /></br>
-	      <button class="btn btn-primary btn-lg" type="submit">Search</button>
+	    <form id="search-form" action="movie/search" method="post">
+	      <input type="text" name="query" class="search-field" /></br>
+	      <button class="btn btn-primary" type="submit">Search</button>
 	    </form>
-	<div>
-    <ul>
-    </ul>
+	</div>
+	<div class="favorites">
+		<% if @favorites %>
+			<% @favorites.each do |fav| %>
+				<div class="movie-card">
+					<h4>
+						<span class='imdbid'><%= fav[0] %></span>
+						<%= fav[1]['Title'] %>
+					</h4>
+					<img class="poster" src="<%= fav[1]['Poster'] %>">
+					<form name="favoritor" action="/favorited" method="POST">
+						<input class="hidden-input" type="hidden" name="oid" value='<%= fav[1] %>'>
+						<button class="glyphicon glyphicon-star"></button>
+					</form>
+					<p><%= fav[1]['Released'] %></p>
+					<p>Director: <%= fav[1]['Director'] %></p>
+					<p>Writer(s): <%= fav[1]['Writer'] %></p>
+					<p>Actor(s): <%= fav[1]['Actors'] %></p>				
+				</div>
+			<% end %>
+		<% end %>
+	</div>
   <script src="/js/app.js"></script>
-  <script src="/js/angular.min.js"></script>
-  <script src="/js/bootstrap.min.js"></script>
+  <script type="text/javascript">
+	  function closeResults() {
+	      var searchList = document.querySelector('.wrapper');
+	      var closeResultsIcon = document.querySelector('.glyphicon-eye-close');
+	      searchList.style.display = 'none';
+	      closeResultsIcon.style.display = 'none';
+	   }
+  </script>
   </body>
 </html>
